@@ -66,3 +66,84 @@
 - **Monitoring:** Sentry
 
 ## 🏗 معماری سیستم
+
+```
+
+┌─────────────────────────────────────────────────┐
+│                 لایه کلاینت (React)             │
+│  ┌──────────┐  ┌──────────┐  ┌────────────┐    │
+│  │ پنل بیمار │  │ پنل پزشک │  │ پنل ادمین  │    │
+│  └────┬─────┘  └────┬─────┘  └─────┬──────┘    │
+└───────┼─────────────┼──────────────┼───────────┘
+│             │              │
+┌───────▼─────────────▼──────────────▼───────────┐
+│             لایه API (Laravel)                 │
+│  ┌─────────────────────────────────────────┐  │
+│  │  Auth Service  │  Appointment Service   │  │
+│  │  Payment Service│  Medical Record Service│  │
+│  └────────────┬────────────────────────────┘  │
+│               │                               │
+│  ┌────────────▼────────────────────────────┐  │
+│  │        PostgreSQL / MySQL               │  │
+│  └─────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────┘
+
+```
+
+## 🔗 اتصال به سامانه‌های وزارت بهداشت
+
+این سیستم برای اتصال به سامانه‌های زیر طراحی شده است:
+
+### ۱. سامانه نوبت‌دهی متمرکز (دیتاس)
+- **API Endpoint:** `apigateway.behdasht.gov.ir`
+- **نقش‌ها:** نوبت‌دهنده (Scheduler) و نوبت‌گیرنده (Scheduling)
+- **توابع:** `GetProviderScheduling`, `SetAppointment`, `RemoveAppointment`
+
+### ۲. پرونده الکترونیک سلامت (EHR)
+- **استاندارد:** HL7 / ISO 13606
+- **سازگاری:** با سامانه‌های سیب و سینا
+
+### ۳. ویزیت از راه دور
+- **آیین‌نامه:** ابلاغیه ۴ آبان ۱۴۰۴ وزارت بهداشت
+- **الزامات:** احراز هویت دومرحله‌ای، رمزنگاری داده‌ها، ثبت کامل وقایع
+
+## 🚀 راه‌اندازی سریع
+
+### پیش‌نیازها:
+- PHP 8.2+
+- Composer
+- MySQL 8+
+- Node.js 18+
+
+### نصب:
+
+```bash
+# 1. Clone repository
+git clone https://github.com/your-username/clinic-laravel.git
+cd clinic-laravel
+
+# 2. Install dependencies
+composer install
+npm install
+
+# 3. Setup environment
+cp .env.example .env
+php artisan key:generate
+
+# 4. Configure database
+# Edit .env file with your database credentials
+
+# 5. Run migrations
+php artisan migrate --seed
+
+# 6. Start development server
+php artisan serve
+
+# 7. Run frontend (in separate terminal)
+npm run dev
+```
+
+📊 اسکرین‌شات‌ها
+
+(در حال تکمیل - به‌زودی اضافه می‌شود)
+
